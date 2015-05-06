@@ -47,7 +47,49 @@ void setup()                    // run once, when the sketch starts
 void loop()                     // run over and over again
 {
   
-  DrawPx(3,4,Yellow);           // Draw a dot at x=3, y=4, in yellow.
+  DrawPx(1,1,White);            // Draw a dot at x=3, y=4, in yellow.
+  DrawPx(1,2,White);
+  DrawPx(1,3,White);
+  DrawPx(1,4,White);
+  DrawPx(0,4,White);
+  DrawPx(0,5,White);
+  DrawPx(0,6,White);
+  DrawPx(1,5,Red);
+  DrawPx(1,6,White);
+  DrawPx(1,7,White);
+  DrawPx(2,7,White);
+  DrawPx(2,6,White);
+  DrawPx(2,5,Red);
+  DrawPx(2,4,White);
+  DrawPx(2,3,White);
+  DrawPx(2,2,White);
+  DrawPx(3,1,White);
+  DrawPx(3,2,White);
+  DrawPx(3,3,White);
+  DrawPx(3,4,White);
+  DrawPx(3,5,White);
+  DrawPx(3,6,White);
+  DrawPx(3,7,White);
+  DrawPx(4,7,White);
+  DrawPx(4,6,White);
+  DrawPx(4,5,Red);
+  DrawPx(4,4,White);
+  DrawPx(4,3,White);
+  DrawPx(4,2,White);
+  DrawPx(5,1,White);
+  DrawPx(5,2,White);
+  DrawPx(5,3,White);
+  DrawPx(5,4,White);
+  DrawPx(5,5,Red);
+  DrawPx(5,6,White);
+  DrawPx(5,7,White);
+  DrawPx(6,6,White);
+  DrawPx(6,5,White);
+  DrawPx(6,4,White);
+ 
+  
+ 
+  
   DisplaySlate();                  // Write the drawing to the screen.
   delay(1000);                  // waits for a second
   
