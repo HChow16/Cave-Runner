@@ -1,53 +1,60 @@
-/*
-  MeggyJr_Blink.pde
- 
- Example file using the The Meggy Jr Simplified Library (MJSL)
-  from the Meggy Jr RGB library for Arduino
-   
- Blink a damned LED.
-   
-   
- 
- Version 1.25 - 12/2/2008
- Copyright (c) 2008 Windell H. Oskay.  All right reserved.
- http://www.evilmadscientist.com/
- 
- This library is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- This library is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License
- along with this library.  If not, see <http://www.gnu.org/licenses/>.
- 	  
- */
-
- 
- 
- 
- 
-
-/*
- * Adapted from "Blink,"  The basic Arduino example.  
- * http://www.arduino.cc/en/Tutorial/Blink
- */
 
 #include <MeggyJrSimple.h>    // Required code, line 1 of 2.
 
+int arrayone[] = {0,1,1,0,0,1,1,0}; //enemies in
+int arraytwo[] = {0,0,1,0,0,1,0,0};
+int arraythree[] = {0,1,1,0,1,0,1,0};
+int arrayfour[] = {0,0,1,1,0,1,0,0};
+int arrayfive[] = {0,1,0,0,1,1,0,0};
+int arraysix[] = {0,1,0,1,0,0,1,0};
+  
 void setup()                    // run once, when the sketch starts
 {
   MeggyJrSimpleSetup();      // Required code, line 2 of 2.
 }
 
-void loop()                     // run over and over again
+void loop();                     // run over and over again
 {
+  drawRunner();
+  DrawColumns();
   
-  DrawPx(1,1,White);            // Draw a dot at x=3, y=4, in yellow.
+  
+  CheckButtonsPress();          // Check to see which buttons are pressed
+  
+  if(Button_Left)               // Move Left
+  {
+    rx --;
+  }
+  if(Button_Right)              // Move Right
+  {
+    rx ++;
+  }
+  if(Button_Up)                 // Move Up
+  {  
+    ry ++;
+  }
+  if(Button_Down)               // Move Down
+  {
+    ry --;
+  }
+    
+  
+  DisplaySlate();                  // Write the drawing to the screen.
+  delay(1000);                  // waits for a second
+  
+  ClearSlate();                 // Erase drawing
+  DisplaySlate();                  // Write the (now empty) drawing to the screen.
+   
+  delay(1000);                  // waits for a second
+  
+  updateRunner();               //Update the Runner
+  updateEnemies();              //Update the Enemies
+  Score();                      //Score
+}
+
+void DeathScreen()              //Draw Death Screen
+ {
+  DrawPx(1,1,White);            
   DrawPx(1,2,White);
   DrawPx(1,3,White);
   DrawPx(1,4,White);
@@ -86,17 +93,86 @@ void loop()                     // run over and over again
   DrawPx(6,6,White);
   DrawPx(6,5,White);
   DrawPx(6,4,White);
+ }
  
-  
+ void DrawColumns()          //Draw Each Seperate Column
+ {
+   for(int i=0; i < 8; i++);    
+   {
+     DrawPx(1,i,arrayone[i]);            //Draw column one's array
+     DrawPx(3,i,arraythree[i]);          //Draw column two's array
+     DrawPx(5,i,arrayfive[i]);           //Draw column three's array
+     DrawPx(2,i,arraytwo[i]);            //Draw column four's array
+     DrawPx(4,i,arrayfour[i]);           //Draw column five's array
+     DrawPx(6,i,arraysix[i]);            //Draw column six's array
+   }
+ }
+
+void drawRunner()
+{
+  DrawPx(0,3,Blue );       //Draw Runner at point (0,3) in Blue
+}
  
+void Score()            //Score
+{
+  if(Score == 1)
+  { 
+    SetAuxLEDsBinary(B10000000);
+  }
+if(Score == 2)
+{
+  SetAuxLEDsBinary(B11000000);
+}
+if(Score == 3)
+{
+  SetAuxLEDsBinary(B11100000);
+}
+if(Score == 4)
+{
+  SetAuxLEDsBinary(B11110000);
+}
+if(Score == 5)
+{
+  SetAuxLEDsBinary(B11111000);
+}
+if(Score == 6)
+{
+  SetAuxLEDsBinary(B11111100);
+}
+if(Score == 7)
+{ 
+  SetAuxLEDsBinary(B11111110);
+}
+if(Score == 8)
+{
+  SetAuxLEDsBinary(B11111111);
+}
+}
+void updateRunner()
+{
+   for(int i = 0; i < 7; i++);    
+   {
+     int temp = arrayone[i];
+     arrayone[i] = arrayone[i+1];            //Draw column one's array
+     arrayone[7] = temp;
+     
+     int temp = arrayone[i];
+     arrayone[i] = arrayone[i+1];            //Draw column one's array
+     arrayone[7] = temp;
+     
+     
+     DrawPx(3,i,arraythree[i]);          //Draw column two's array
+     DrawPx(5,i,arrayfive[i]);           //Draw column three's array
+     DrawPx(2,i,arraytwo[i]);            //Draw column four's array
+     DrawPx(4,i,arrayfour[i]);           //Draw column five's array
+     DrawPx(6,i,arraysix[i]);            //Draw column six's array
+   }
+}
   
-  DisplaySlate();                  // Write the drawing to the screen.
-  delay(1000);                  // waits for a second
-  
-  ClearSlate();                 // Erase drawing
-  DisplaySlate();                  // Write the (now empty) drawing to the screen.
-   
-  delay(1000);                  // waits for a second
+
+void updateEnemies()
+{
+ 
 }
 
-
+ 
