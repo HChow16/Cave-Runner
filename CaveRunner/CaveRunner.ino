@@ -1,23 +1,23 @@
 
 #include <MeggyJrSimple.h>    // Required code, line 1 of 2.
 
-int arrayone[] = {0,1,1,0,0,1,1,0}; //enemies in
-int arraytwo[] = {0,0,1,0,0,1,0,0};
-int arraythree[] = {0,1,1,0,1,0,1,0};
-int arrayfour[] = {0,0,1,1,0,1,0,0};
-int arrayfive[] = {0,1,0,0,1,1,0,0};
-int arraysix[] = {0,1,0,1,0,0,1,0};
+int arrayone[] = {0,1,1,0,0,1,1,0};      //enemies in array one
+int arraytwo[] = {0,0,1,0,0,1,0,0};      //enemies in array two
+int arraythree[] = {0,1,1,0,1,0,1,0};    //enemies in array three
+int arrayfour[] = {0,0,1,1,0,1,0,0};     //enemies in array four
+int arrayfive[] = {0,1,0,0,1,1,0,0};     //enemies in array five
+int arraysix[] = {0,1,0,1,0,0,1,0};      //enemies in array six
+int rx, ry;
   
 void setup()                    // run once, when the sketch starts
 {
-  MeggyJrSimpleSetup();      // Required code, line 2 of 2.
+  MeggyJrSimpleSetup();         // Required code, line 2 of 2.
 }
 
-void loop();                     // run over and over again
+void loop()                   // run over and over again
 {
   drawRunner();
   DrawColumns();
-  
   
   CheckButtonsPress();          // Check to see which buttons are pressed
   
@@ -39,7 +39,7 @@ void loop();                     // run over and over again
   }
     
   
-  DisplaySlate();                  // Write the drawing to the screen.
+  DisplaySlate();               // Write the drawing to the screen.
   delay(1000);                  // waits for a second
   
   ClearSlate();                 // Erase drawing
@@ -49,7 +49,7 @@ void loop();                     // run over and over again
   
   updateRunner();               //Update the Runner
   updateEnemies();              //Update the Enemies
-  Score();                      //Score
+                    
 }
 
 void DeathScreen()              //Draw Death Screen
@@ -99,7 +99,7 @@ void DeathScreen()              //Draw Death Screen
  {
    for(int i=0; i < 8; i++);    
    {
-     DrawPx(1,i,arrayone[i]);            //Draw column one's array
+     DrawPx(1,i,   arrayone[i]);            //Draw column one's array
      DrawPx(3,i,arraythree[i]);          //Draw column two's array
      DrawPx(5,i,arrayfive[i]);           //Draw column three's array
      DrawPx(2,i,arraytwo[i]);            //Draw column four's array
@@ -110,54 +110,43 @@ void DeathScreen()              //Draw Death Screen
 
 void drawRunner()
 {
-  DrawPx(0,3,Blue );       //Draw Runner at point (0,3) in Blue
+  DrawPx(rx,ry,Blue);                      //Draw Runner at point (x,y) in Blue
 }
  
-void Score()            //Score
-{
-  if(Score == 1)
-  { 
-    SetAuxLEDsBinary(B10000000);
-  }
-if(Score == 2)
-{
-  SetAuxLEDsBinary(B11000000);
-}
-if(Score == 3)
-{
-  SetAuxLEDsBinary(B11100000);
-}
-if(Score == 4)
-{
-  SetAuxLEDsBinary(B11110000);
-}
-if(Score == 5)
-{
-  SetAuxLEDsBinary(B11111000);
-}
-if(Score == 6)
-{
-  SetAuxLEDsBinary(B11111100);
-}
-if(Score == 7)
-{ 
-  SetAuxLEDsBinary(B11111110);
-}
-if(Score == 8)
-{
-  SetAuxLEDsBinary(B11111111);
-}
-}
+
 void updateRunner()
 {
-   for(int i = 0; i < 7; i++);    
+  CheckButtonsPress();      
+    if(Button_Right)           //if button right is pressed move one space to the right
+    {
+      rx++;
+    }
+    if(Button_Left)            //if button left is pressed move one space to the left
+    {
+      rx--;
+    }
+    if(Button_Up)              //if button up is pressed move one space up
+    {
+      ry++;
+    }
+    if(Button_Down)            //if button down is pressed move one space down
+    { 
+      ry--;
+    }
+    
+}
+  
+void updateEnemies()
+{
+  int temp;
+   for(int i = 0; i < 7; i++)
    {
-     int temp = arrayone[i];
-     arrayone[i] = arrayone[i+1];            //Draw column one's array
+     temp = arrayone[i];
+     arrayone[i] = arrayone[i+1];        //Draw column one's array
      arrayone[7] = temp;
      
-     int temp = arrayone[i];
-     arrayone[i] = arrayone[i+1];            //Draw column one's array
+     temp = arrayone[i];
+     arrayone[i] = arrayone[i+1];        //Draw column one's array
      arrayone[7] = temp;
      
      
@@ -169,10 +158,4 @@ void updateRunner()
    }
 }
   
-
-void updateEnemies()
-{
- 
-}
-
  
