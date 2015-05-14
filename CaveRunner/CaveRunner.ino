@@ -1,9 +1,9 @@
 
 #include <MeggyJrSimple.h>    // Required code, line 1 of 2.
 
-int arrayone[] = {0,1,1,0,0,1,1,0};      //enemies in array one
-int arraytwo[] = {0,0,1,0,0,1,0,0};      //enemies in array two
-int arraythree[] = {0,1,1,0,1,0,1,0};    //enemies in array three
+int arrayone[] = {0,1,0,1,0,1,0,0};      //enemies in array one
+int arraytwo[] = {0,0,0,0,0,1,0,0};      //enemies in array two
+int arraythree[] = {0,1,0,0,1,0,1,0};    //enemies in array three
 int arrayfour[] = {0,0,1,1,0,1,0,0};     //enemies in array four
 int arrayfive[] = {0,1,0,0,1,1,0,0};     //enemies in array five
 int arraysix[] = {0,1,0,1,0,0,1,0};      //enemies in array six
@@ -12,12 +12,14 @@ int rx, ry;
 void setup()                    // run once, when the sketch starts
 {
   MeggyJrSimpleSetup();         // Required code, line 2 of 2.
+  Serial.begin(9600);
 }
 
 void loop()                   // run over and over again
 {
   drawRunner();
   DrawColumns();
+  Drawgoal();
   
   CheckButtonsPress();          // Check to see which buttons are pressed
   
@@ -45,7 +47,7 @@ void loop()                   // run over and over again
   ClearSlate();                 // Erase drawing
   DisplaySlate();                  // Write the (now empty) drawing to the screen.
    
-  delay(1000);                  // waits for a second
+  delay(10);                  // waits for a second
   
   updateRunner();               //Update the Runner
   updateEnemies();              //Update the Enemies
@@ -97,9 +99,9 @@ void DeathScreen()              //Draw Death Screen
  
  void DrawColumns()          //Draw Each Seperate Column
  {
-   for(int i=0; i < 8; i++);    
+   for(int i=0; i < 8; i++)
    {
-     DrawPx(1,i,   arrayone[i]);            //Draw column one's array
+     DrawPx(1,i,arrayone[i]);            //Draw column one's array
      DrawPx(3,i,arraythree[i]);          //Draw column two's array
      DrawPx(5,i,arrayfive[i]);           //Draw column three's array
      DrawPx(2,i,arraytwo[i]);            //Draw column four's array
@@ -142,20 +144,37 @@ void updateEnemies()
    for(int i = 0; i < 7; i++)
    {
      temp = arrayone[i];
-     arrayone[i] = arrayone[i+1];        //Draw column one's array
+     arrayone[i] = arrayone[i+1];        
      arrayone[7] = temp;
      
-     temp = arrayone[i];
-     arrayone[i] = arrayone[i+1];        //Draw column one's array
-     arrayone[7] = temp;
+     temp = arraythree[i];
+     arraythree[i] = arraythree[i+1];       
+     arraythree[7] = temp;
      
+     temp = arrayfive[i];
+     arrayfive[i] = arrayfive[i+1];
+     arrayfive[7] = temp;                
+   }
+   
+   for(int j = 6; j < 0; j--)
+   {
+     Serial.println("entered second loop");
+     temp = arraytwo[j];
+     arraytwo[j] = arraytwo[j-1];
+//     arraytwo [0] = temp;     
      
-     DrawPx(3,i,arraythree[i]);          //Draw column two's array
-     DrawPx(5,i,arrayfive[i]);           //Draw column three's array
-     DrawPx(2,i,arraytwo[i]);            //Draw column four's array
-     DrawPx(4,i,arrayfour[i]);           //Draw column five's array
-     DrawPx(6,i,arraysix[i]);            //Draw column six's array
+     temp = arrayfour[j];
+     arrayfour[j] = arrayfour[j-1];
+     arrayfour[0] = temp;
+
+     temp = arraysix[j];              
+     arraysix[j] = arraysix[j-1];
+     arraysix[0] = temp;     
    }
 }
   
+void Drawgoal()
+{
+  DrawPx(7,5,2);
+}
  
