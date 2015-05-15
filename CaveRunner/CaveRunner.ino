@@ -7,7 +7,8 @@ int arraythree[] = {0,1,0,0,1,0,1,0};    //enemies in array three
 int arrayfour[] = {0,0,1,1,0,1,0,0};     //enemies in array four
 int arrayfive[] = {0,1,0,0,1,1,0,0};     //enemies in array five
 int arraysix[] = {0,1,0,1,0,0,1,0};      //enemies in array six
-int rx, ry;
+int rx;
+int ry;
   
 void setup()                    // run once, when the sketch starts
 {
@@ -100,13 +101,14 @@ void DeathScreen()              //Draw Death Screen
  void DrawColumns()          //Draw Each Seperate Column
  {
    for(int i=0; i < 8; i++)
+   for(int j = 6; j < 0; j--)
    {
      DrawPx(1,i,arrayone[i]);            //Draw column one's array
      DrawPx(3,i,arraythree[i]);          //Draw column two's array
      DrawPx(5,i,arrayfive[i]);           //Draw column three's array
-     DrawPx(2,i,arraytwo[i]);            //Draw column four's array
-     DrawPx(4,i,arrayfour[i]);           //Draw column five's array
-     DrawPx(6,i,arraysix[i]);            //Draw column six's array
+     DrawPx(2,j,arraytwo[j]);            //Draw column four's array
+     DrawPx(4,j,arrayfour[j]);           //Draw column five's array
+     DrawPx(6,j,arraysix[j]);            //Draw column six's array
    }
  }
 
@@ -121,20 +123,29 @@ void updateRunner()
   CheckButtonsPress();      
     if(Button_Right)           //if button right is pressed move one space to the right
     {
-      rx++;
+      rx ++;
     }
     if(Button_Left)            //if button left is pressed move one space to the left
     {
-      rx--;
+      rx --;
     }
     if(Button_Up)              //if button up is pressed move one space up
     {
-      ry++;
+      ry ++;
     }
     if(Button_Down)            //if button down is pressed move one space down
     { 
-      ry--;
+      ry --;
     }
+    
+    if(ry<0)                   //Boundaries for screen
+      ry = 0;
+    if(ry>7)
+      ry = 7;
+    if(rx<0)
+      rx = 0;
+    if(rx>7)
+      rx = 7;
     
 }
   
@@ -161,7 +172,7 @@ void updateEnemies()
      Serial.println("entered second loop");
      temp = arraytwo[j];
      arraytwo[j] = arraytwo[j-1];
-//     arraytwo [0] = temp;     
+     arraytwo [0] = temp;     
      
      temp = arrayfour[j];
      arrayfour[j] = arrayfour[j-1];
@@ -175,6 +186,6 @@ void updateEnemies()
   
 void Drawgoal()
 {
-  DrawPx(7,5,2);
+  DrawPx(7,5,2);                    //draw the goal at point x=7 y=5 in orange
 }
  
