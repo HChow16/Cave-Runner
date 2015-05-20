@@ -13,7 +13,6 @@ int ry;
 void setup()                    // run once, when the sketch starts
 {
   MeggyJrSimpleSetup();         // Required code, line 2 of 2.
-  Serial.begin(9600);
 }
 
 void loop()                   // run over and over again
@@ -48,7 +47,7 @@ void loop()                   // run over and over again
   ClearSlate();                 // Erase drawing
   DisplaySlate();                  // Write the (now empty) drawing to the screen.
    
-  delay(10);                  // waits for a second
+  delay(0);                  // waits for a second
   
   updateRunner();               //Update the Runner
   updateEnemies();              //Update the Enemies
@@ -169,7 +168,6 @@ void updateEnemies()
    
    for(int j = 6; j < 0; j--)
    {
-     Serial.println("entered second loop");
      temp = arraytwo[j];
      arraytwo[j] = arraytwo[j-1];
      arraytwo [0] = temp;     
@@ -184,7 +182,7 @@ void updateEnemies()
    }
 }
   
-void Drawgoal()
+void Drawgoal()  
 {
   DrawPx(7,5,2);                    //draw the goal at point x=7 y=5 in orange
 }
