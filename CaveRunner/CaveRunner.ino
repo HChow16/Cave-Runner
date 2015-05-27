@@ -2,24 +2,34 @@
 #include <MeggyJrSimple.h>    // Required code, line 1 of 2.
 
 int arrayone[] = {0,1,0,1,0,1,0,0};      //enemies in array one
-int arraytwo[] = {0,0,0,0,0,1,0,0};      //enemies in array two
+int arraytwo[] = {0,1,0,0,0,1,0,0};      //enemies in array two
 int arraythree[] = {0,1,0,0,1,0,1,0};    //enemies in array three
 int arrayfour[] = {0,0,1,1,0,1,0,0};     //enemies in array four
 int arrayfive[] = {0,1,0,0,1,1,0,0};     //enemies in array five
 int arraysix[] = {0,1,0,1,0,0,1,0};      //enemies in array six
 int rx;
 int ry;
+int counter = 0;
+int level = 1
   
-void setup()                    // run once, when the sketch starts
+void setup()                    // run once when the sketch starts
 {
   MeggyJrSimpleSetup();         // Required code, line 2 of 2.
 }
 
 void loop()                   // run over and over again
 {
-  drawRunner();
+  if (counter < 100)
+    counter++;
+  else counter = 0;
   DrawColumns();
+  drawRunner();
   Drawgoal();
+  
+  if (ReadPx(rx,ry) == Red)   // if on red then draw death screen
+    {
+     // DrawPx DeathScreen;
+    }
   
   CheckButtonsPress();          // Check to see which buttons are pressed
   
@@ -42,15 +52,16 @@ void loop()                   // run over and over again
     
   
   DisplaySlate();               // Write the drawing to the screen.
-  delay(1000);                  // waits for a second
+  delay(100);                  // waits for a second
   
   ClearSlate();                 // Erase drawing
   DisplaySlate();                  // Write the (now empty) drawing to the screen.
    
-  delay(0);                  // waits for a second
+//  delay(0);                  // waits for a second
   
   updateRunner();               //Update the Runner
-  updateEnemies();              //Update the Enemies
+  if (counter%25 == 0)
+    updateEnemies();              //Update the Enemies
                     
 }
 
@@ -95,25 +106,28 @@ void DeathScreen()              //Draw Death Screen
   DrawPx(6,6,White);
   DrawPx(6,5,White);
   DrawPx(6,4,White);
+  Tone_Start(18183, 50);
  }
  
  void DrawColumns()          //Draw Each Seperate Column
  {
    for(int i=0; i < 8; i++)
-   for(int j = 6; j < 0; j--)
    {
-     DrawPx(1,i,arrayone[i]);            //Draw column one's array
-     DrawPx(3,i,arraythree[i]);          //Draw column two's array
-     DrawPx(5,i,arrayfive[i]);           //Draw column three's array
-     DrawPx(2,j,arraytwo[j]);            //Draw column four's array
-     DrawPx(4,j,arrayfour[j]);           //Draw column five's array
-     DrawPx(6,j,arraysix[j]);            //Draw column six's array
+     for(int j = 6; j > 0; j--)
+     {
+       DrawPx(1,i,arrayone[i]);            //Draw column one's array
+       DrawPx(3,i,arraythree[i]);          //Draw column two's array
+       DrawPx(5,i,arrayfive[i]);           //Draw column three's array
+       DrawPx(2,j,arraytwo[j]);            //Draw column four's array
+       DrawPx(4,j,arrayfour[j]);           //Draw column five's array
+       DrawPx(6,j,arraysix[j]);            //Draw column six's array
+     }
    }
  }
 
 void drawRunner()
 {
-  DrawPx(rx,ry,Blue);                      //Draw Runner at point (x,y) in Blue
+  DrawPx(rx,ry,15);                      //Draw Runner at point (x,y) in Blue
 }
  
 
@@ -146,6 +160,10 @@ void updateRunner()
     if(rx>7)
       rx = 7;
     
+    if (ReadPx(rx,ry) == Red)
+      {
+      // DrawPx DeathScreen;
+      }
 }
   
 void updateEnemies()
@@ -170,7 +188,7 @@ void updateEnemies()
    {
      temp = arraytwo[j];
      arraytwo[j] = arraytwo[j-1];
-     arraytwo [0] = temp;     
+     arraytwo[0] = temp;     
      
      temp = arrayfour[j];
      arrayfour[j] = arrayfour[j-1];
